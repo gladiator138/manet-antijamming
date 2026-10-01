@@ -23,7 +23,7 @@ P = Params()
 POW = [None, 4, 8, 12, 16, 20, 24]
 FOLLOW, TAU, GATE_WIN, EP_PRIOR, EP_GAP, REJOIN = 50, 10, 40, 40, 5, 5
 GATE_CONF, ORD_ROUNDS, ORD_DEADLINE = 0.95, 3, 3
-REPO_URL = ""          # public repository, once created
+REPO_URL = "https://github.com/gladiator138/manet-antijamming"          # public repository, once created
 H = FOLLOW + TAU
 
 ML, MLU, LAB, NONE = "ETX+ML-FC+gate (proposed)", "ETX+ML-FC", "ETX+Label-FC", "ETX"
