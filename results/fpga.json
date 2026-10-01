@@ -1,0 +1,176 @@
+{
+ "generated": "2026-10-01T03:32:51",
+ "model": "../../results/rf_compact.pkl",
+ "model_sha256_16": "1e5ff1a73dc8c7b3",
+ "quant": "../../results/fpga_quant.json",
+ "trees": 10,
+ "depth": 12,
+ "bits": 16,
+ "leaf_bits": 12,
+ "thresh": 0.8,
+ "score_threshold_K": 32760,
+ "thr_mode": "floor",
+ "latency_cycles": 19,
+ "latency_measured_in_sim": true,
+ "throughput": "1 window / clock",
+ "n_vectors": 4000,
+ "n_vectors_real": 3000,
+ "n_vectors_stress": 1000,
+ "rtl_vs_int_match": true,
+ "rtl_vs_int": {
+  "iverilog": {
+   "n_ref": 4000,
+   "n_rtl": 4000,
+   "n_equal": 4000,
+   "match": true,
+   "match_fraction": 1.0,
+   "latency_measured": 19
+  }
+ },
+ "int_vs_float_agreement": 1.0,
+ "int_vs_float_agreement_real": 1.0,
+ "int_vs_float_agreement_stress": 1.0,
+ "nodes": 49788,
+ "rom_bits": 1334180,
+ "rom_style": "block",
+ "luts": 5873,
+ "lut_logic": 5844,
+ "ffs": 1884,
+ "bram36_equiv": 86.5,
+ "ramb36": 37,
+ "ramb18": 99,
+ "lutram": 29,
+ "lutram_as_srl": 29,
+ "dsps": 0,
+ "carry4": 266,
+ "muxf7": 348,
+ "muxf8": 174,
+ "utilization": {
+  "luts_pct": 4.36,
+  "ffs_pct": 0.7,
+  "bram_pct": 23.7,
+  "dsps_pct": 0.0
+ },
+ "device": {
+  "name": "XC7A200T (Artix-7)",
+  "luts": 134600,
+  "ffs": 269200,
+  "slices": 33650,
+  "bram36": 365,
+  "bram18": 730,
+  "bram_kb": 13140,
+  "dsps": 740,
+  "max_distributed_ram_kb": 2888,
+  "logic_cells": 215360,
+  "source": "AMD Artix 7 product table (amd.com/en/products/adaptive-socs-and-fpgas/fpga/artix-7.html) for logic cells/DSP/BRAM Kb (confirmed 2026-09-30); slices/LUT/FF/distributed-RAM from the DS180 7-Series product table (not re-fetched: docs.amd.com unreachable from this sandbox; consistent with 215,360 LCs = 1.6 x 134,600 LUTs)"
+ },
+ "fmax_note": "Fmax not measured (no vendor place-and-route/STA). ESTIMATE only, from a longest-path search over the Yosys-mapped netlist with Yosys' xc7 cell delays (Project X-Ray, Artix-7 -1): logic-only (zero wire delay) period 5.166 ns (<= 193.6 MHz, optimistic bound); with an assumed 450 ps per net hop 8.375 ns (~119.4 MHz). Critical path: RAMB18E1(launch) -> LUT2 -> MUXF7 -> MUXF8 -> LUT6 -> CARRY4 -> CARRY4 -> INV -> RAMB18E1.ADDRARDADDR(capture)",
+ "timing_estimate": {
+  "available": true,
+  "route_ps_per_hop": 450,
+  "cells_sim": "/usr/local/lib/python3.11/dist-packages/yowasp_yosys/share/xilinx/cells_sim.v",
+  "unknown_cell_types": [
+   "$scopeinfo"
+  ],
+  "logic_only": {
+   "period_ns": 5.166,
+   "fmax_mhz": 193.6,
+   "path": [
+    "RAMB36E1(launch)",
+    "LUT6",
+    "LUT5",
+    "CARRY4",
+    "CARRY4",
+    "INV",
+    "RAMB36E1.ADDRARDADDR(capture)"
+   ],
+   "comb_cells_on_path": 5,
+   "lut_levels": 3,
+   "graph_has_loop": false
+  },
+  "with_routing": {
+   "period_ns": 8.375,
+   "fmax_mhz": 119.4,
+   "path": [
+    "RAMB18E1(launch)",
+    "LUT2",
+    "MUXF7",
+    "MUXF8",
+    "LUT6",
+    "CARRY4",
+    "CARRY4",
+    "INV",
+    "RAMB18E1.ADDRARDADDR(capture)"
+   ],
+   "comb_cells_on_path": 7,
+   "lut_levels": 3,
+   "graph_has_loop": false
+  }
+ },
+ "variants": {
+  "block": {
+   "resources": {
+    "luts": 5873,
+    "lut_logic": 5844,
+    "lutram": 29,
+    "lutram_as_srl": 29,
+    "lutram_as_rom_ram": 0,
+    "ffs": 1884,
+    "ramb36": 37,
+    "ramb18": 99,
+    "bram36_equiv": 86.5,
+    "dsps": 0,
+    "carry4": 266,
+    "muxf7": 348,
+    "muxf8": 174
+   },
+   "utilization": {
+    "luts_pct": 4.36,
+    "ffs_pct": 0.7,
+    "bram_pct": 23.7,
+    "dsps_pct": 0.0
+   },
+   "fmax_est_logic_only_mhz": 193.6,
+   "fmax_est_with_routing_mhz": 119.4
+  },
+  "auto": {
+   "resources": {
+    "luts": 9120,
+    "lut_logic": 9091,
+    "lutram": 29,
+    "lutram_as_srl": 29,
+    "lutram_as_rom_ram": 0,
+    "ffs": 3465,
+    "ramb36": 37,
+    "ramb18": 19,
+    "bram36_equiv": 46.5,
+    "dsps": 0,
+    "carry4": 266,
+    "muxf7": 720,
+    "muxf8": 201
+   },
+   "utilization": {
+    "luts_pct": 6.78,
+    "ffs_pct": 1.29,
+    "bram_pct": 12.74,
+    "dsps_pct": 0.0
+   },
+   "fmax_est_logic_only_mhz": 193.6,
+   "fmax_est_with_routing_mhz": 119.4
+  }
+ },
+ "tools": {
+  "yosys": "Yosys 0.69 (git sha1 9f75ca1f9, Release, Clang /workspace/YoWASP/yosys/wasi-sdk-33.0-x86_64-linux/share/cmake/../..//bin/clang++ 22.1.0)",
+  "synth": "synth_xilinx -family xc7 -top rf_forest -flatten",
+  "simulators": [
+   "iverilog"
+  ]
+ },
+ "command": "../../sim/fpga/run_fpga.sh ../../results/rf_compact.pkl ../../results/fpga_quant.json ../../results/fpga_vectors.npy  [ROM_STYLES='block auto' SIM=iverilog LEAF_BITS=12 THR_MODE=floor]",
+ "caveats": [
+  "Yosys synth_xilinx resource counts, not Vivado; Vivado results typically differ (often fewer LUTs).",
+  "I/O buffers (IBUF/OBUF) excluded from LUT/FF counts; the core is meant to be embedded.",
+  "Inputs are already-quantised B-bit features; the float->fixed conversion is upstream.",
+  "Fmax is an estimate (see fmax_note), not a place-and-route result."
+ ]
+}
