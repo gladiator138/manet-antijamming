@@ -4,6 +4,10 @@ python3 build_paper.py   -> paper/manet_antijamming.tex and .pdf (needs pdflatex
 """
 import json, os, re, shutil, subprocess
 import numpy as np
+
+# PAPER_VARIANT=general: no special-session framing (intro sentence, keywords)
+GENERAL = os.environ.get("PAPER_VARIANT") == "general"
+NAME = "manet_antijamming_general" if GENERAL else "manet_antijamming"
 from manet_sim import Params, expected_per
 from countermeasure import onoff_phi
 
@@ -765,19 +769,22 @@ assert not missing, missing
 V["bibliography"] = ("\\begin{thebibliography}{99}\n" +
                      "\n".join(f"\\bibitem{{{k}}} {REFS[k]}" for k in order) + "\n\\end{thebibliography}")
 
+if GENERAL:
+    T = T.replace(' Because the\ndetector runs on every radio and its output reconfigures the whole network, it must also be trustworthy and cheap in\nhardware: we authenticate every order and implement the detector on an FPGA.', "").replace('\\keywords{Tactical MANET \\and Jamming \\and Trustworthy AI \\and Random Forest \\and FPGA \\and Hardware security}',
+                  r"\keywords{Tactical MANET \and Jamming \and Frequency agility \and Random Forest \and FPGA}")
 tex = T
 for k in sorted(V, key=len, reverse=True):
     tex = tex.replace(f"<<{k}>>", str(V[k]))
 left = re.findall(r"<<\w+>>", tex)
 assert not left, left
-path = os.path.join(OUT, "manet_antijamming.tex")
+path = os.path.join(OUT, NAME + ".tex")
 open(path, "w").write(tex)
 for f in ("fig1_architecture.pdf", "fig5_pdr_reroute.pdf", "fig6_pdr_fc.pdf", "fig7_switch_rate.pdf", "fig8_follow.pdf"):
     shutil.copy(os.path.join(FIG, f), OUT)
 shutil.copy(os.path.join(ROOT, "springer_template", "llncs", "llncs.cls"), OUT)
 for _ in range(2):
-    r = subprocess.run(["pdflatex", "-interaction=nonstopmode", "manet_antijamming.tex"], cwd=OUT, capture_output=True, text=True)
-log = open(os.path.join(OUT, "manet_antijamming.log")).read()
+    r = subprocess.run(["pdflatex", "-interaction=nonstopmode", NAME + ".tex"], cwd=OUT, capture_output=True, text=True)
+log = open(os.path.join(OUT, NAME + ".log")).read()
 pages = re.search(r"Output written on .*?\((\d+) pages", log)
 print("pages:", pages.group(1) if pages else "?", "| warnings:", len(re.findall(r"Warning", log)),
       "| overfull:", len(re.findall(r"Overfull", log)), "| unused refs:", sorted(set(REFS) - set(order)))
