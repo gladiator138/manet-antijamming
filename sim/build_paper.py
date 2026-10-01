@@ -163,7 +163,7 @@ under strong jamming and never loses more than <<worst_any>> points, in seven un
 sweeping jammers, where ungated triggers lose up to <<ungated_sweep>> points; a plain loss threshold in the same gate does
 almost as well. Orders are authenticated with AES-GCM, and the 16-bit detector synthesised for an Artix-7 FPGA uses
 <<fpga_short>>.
-\keywords{Tactical MANET \and Jamming \and Frequency agility \and Decision rule \and Random Forest \and FPGA}
+\keywords{Tactical MANET \and Jamming \and Trustworthy AI \and Random Forest \and FPGA \and Hardware security}
 \end{abstract}
 
 \section{Introduction}
@@ -176,7 +176,9 @@ accuracy rather than by the decision they drive.
 
 We ask what a detector should drive. Routing around flagged links does not help, as the detours are weak and a
 link-quality metric (ETX \cite{etx}) already avoids bad links. Frequency change escapes the jammer but silences every
-radio while they retune, so a change against a weak, short or sweeping jammer loses more than it gains.
+radio while they retune, so a change against a weak, short or sweeping jammer loses more than it gains. Because the
+detector runs on every radio and its output reconfigures the whole network, it must also be trustworthy and cheap in
+hardware: we authenticate every order and implement the detector on an FPGA.
 The contributions are:
 \begin{itemize}
 \item a break-even condition for network-wide frequency change against an on/off jammer, in terms of its mean on and off
@@ -260,8 +262,8 @@ where $\gamma^{J}$ and $\gamma^{0}$ are the SINR with and without the jammer, wi
 and deployed unchanged; a link alarms when its jamming probability is at least $\theta=<<theta>>$. We also use a loss
 threshold (window PLR $\ge 0.7$ or $0.9$) and the consistency check of Xu et al.\ \cite{xu05} (PLR $\ge<<cc_plr>>$ while
 RSSI $\ge<<cc_rssi>>$\,dBm, fitted for maximum F1 on the training set). With any detector, a change is considered when at
-least $k=<<k>>$ links alarm in <<persist>> consecutive slots; $\theta$ and the persistence were chosen on separate design
-seeds. A change silences the net for $\tau=<<tau>>$ slots, during which alarms are ignored. All other loss is left to
+least $k=<<k>>$ links alarm in <<persist>> consecutive slots ($\theta$ and persistence set on design
+seeds). A change silences the net for $\tau=<<tau>>$ slots, during which alarms are ignored. All other loss is left to
 ETX routing \cite{etx}, computed from the window PLR.
 
 \textbf{Severity gate.} A change is ordered only if the network's PDR while jammed, $p_J$, is below the break-even
@@ -471,11 +473,9 @@ Random forests map well to FPGAs \cite{vanessen}. The full forest has <<nodes_fu
 <<f1_full>>), and 16-bit features and thresholds leave F1 at <<f16_fixed>> (8 bits: <<f8_fixed>>). <<fpga_text>> Feature extraction (window sums, a square root and a dB conversion) is not included.
 
 
-\subsection{Limitations}
-Hidden-terminal interference is drawn independently of the routed traffic, collisions are not simulated per packet,
-routing uses instantaneous link state, and alarm reports are assumed to reach the deciding node within a slot. Labels,
-features and jammers come from parametric models of one generator, the gate needs a planning value of $F$, and its
-confidence trades the gain under strong jamming against safety near the break-even point.
+\paragraph{Limitations.} Interference is independent of routed traffic, collisions are not simulated per packet, and
+all data come from one parametric generator; the gate needs a planning value of $F$, and its confidence trades gain
+under strong jamming against safety near break-even.
 
 \section{Conclusion}
 Rerouting around flagged links, even with perfect labels, changed PDR by less than <<rr_max_int>> points. For frequency
