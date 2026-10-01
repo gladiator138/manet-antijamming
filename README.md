@@ -1,7 +1,7 @@
 # Cause- and severity-aware frequency change against jamming in tactical MANETs
 
 Simulator, experiments and build scripts for the paper "Cause- and Severity-Aware Frequency Change against Jamming in
-Tactical MANETs" (S. Singh, A. Madhukar, S. Sangwan). Every number, table and figure in the paper is generated from
+Tactical MANETs" (S. Sangwan, S. Singh, A. Madhukar). Every number, table and figure in the paper is generated from
 `results/*.json` by the scripts below. `results/rf.pkl` (the 120-tree detector, 63 MB) is not included; regenerate it
 with `python3 run_experiments.py detector`. Building the PDF also needs Springer's `llncs.cls` in
 `springer_template/llncs/`.
