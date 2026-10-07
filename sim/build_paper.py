@@ -6,8 +6,10 @@ import json, os, re, shutil, subprocess
 import numpy as np
 
 # PAPER_VARIANT=general: no special-session framing (intro sentence, keywords)
-GENERAL = os.environ.get("PAPER_VARIANT") == "general"
-NAME = "manet_antijamming_general" if GENERAL else "manet_antijamming"
+NOFPGA = os.environ.get("PAPER_VARIANT") == "nofpga"   # general framing and no hardware section
+GENERAL = os.environ.get("PAPER_VARIANT") == "general" or NOFPGA
+NAME = ("manet_antijamming_nofpga" if NOFPGA else "manet_antijamming_general" if GENERAL
+        else "manet_antijamming")
 from manet_sim import Params, expected_per
 from countermeasure import onoff_phi
 
@@ -138,7 +140,7 @@ TS = sorted({r["tau"] for r in taus})
 to = {k: {t: float(np.mean([r[k] for r in taus if r["tau"] == t])) for t in TS} for k in ("none", "ml", "mlgate")}
 
 # ---------------------------------------------------------------- text
-T = r"""\documentclass[runningheads]{llncs}
+T = r"""\documentclass[runningheads,a4paper]{llncs}
 \usepackage{graphicx,amsmath,amssymb,booktabs,subcaption}
 \usepackage[hidelinks]{hyperref}
 \captionsetup[subfigure]{font=footnotesize}
@@ -757,6 +759,22 @@ if fpga:
         "\\bottomrule\n\\end{tabular}\n\\end{table}")
 else:
     V["fpga_short"] = V["fpga_text"] = V["fpga_table"] = "[FPGA synthesis pending]"
+
+if NOFPGA:
+    rep = [("Orders are authenticated with AES-GCM, and the 16-bit detector synthesised for an Artix-7 FPGA uses\n<<fpga_short>>.",
+            "Orders are authenticated with AES-GCM."),
+           ("\\item authenticated orders and a 16-bit FPGA detector with the same network-level results as the float model.",
+            "\\item frequency-change orders authenticated with AES-GCM."),
+           (r"\keywords{Tactical MANET \and Jamming \and Trustworthy AI \and Random Forest \and FPGA \and Hardware security}",
+            r"\keywords{Tactical MANET \and Jamming \and Frequency agility \and Random Forest}")]
+    for a, b in rep:
+        assert a in T, a[:50]
+        T = T.replace(a, b)
+    i = T.index("\\subsection{Hardware Cost}")
+    j = T.index("\\paragraph{Limitations.}", i)
+    T = T[:i] + T[j:]
+    T = re.sub(r"\s*\(Sect\.~\\ref\{sec:hw\}\)", "", T)
+    assert "sec:hw" not in T
 
 # bibliography in order of first citation
 order = []
