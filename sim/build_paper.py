@@ -150,7 +150,7 @@ T = r"""\documentclass[runningheads,a4paper]{llncs}
 \begin{document}
 \title{Cause- and Severity-Aware Frequency Change against Jamming in Tactical MANETs}
 \titlerunning{Cause- and Severity-Aware Anti-Jamming for Tactical MANETs}
-\author{Siddharth Sangwan\inst{1}\thanks{Corresponding author.} \and Sahil Singh\inst{1} \and Abhishek Madhukar\inst{1}}
+\author{Siddharth Sangwan\inst{1}\thanks{Corresponding author.} \and Sahil Singh\inst{1} \and Abhishek Madhukar\inst{1} \and Hemprasad Patil\inst{1}}
 \authorrunning{S. Sangwan et al.}
 \institute{Faculty of Communication Engineering, Military College of Telecommunication Engineering (MCTE), Mhow, India\\
 \email{siddharthsangwan99@gmail.com}}
